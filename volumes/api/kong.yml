@@ -238,19 +238,10 @@ services:
       - name: cors
         config:
           origins:
-            - "*" # Allow all origins
-          methods:
-            - GET
-            - POST
-            - PUT
-            - DELETE
-            - OPTIONS
-          headers:
-            - Accept
-            - Content-Type
-            - Authorization
+            - "*"
           credentials: true
           max_age: 3600
+          preflight_continue: false
       - name: basic-auth
         config:
           hide_credentials: true

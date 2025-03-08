@@ -236,12 +236,6 @@ services:
           - /
     plugins:
       - name: cors
-        config:
-          origins:
-            - "*"
-          credentials: true
-          max_age: 3600
-          preflight_continue: false
       - name: basic-auth
         config:
           hide_credentials: true

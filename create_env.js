@@ -168,8 +168,8 @@ function generateFrontendEnv() {
     return `
 NEXT_PUBLIC_SUPABASE_URL=http://${HOSTNAME}:8000
 NEXT_PUBLIC_SUPABASE_ANON_KEY=${randomValues.ANON_KEY}
+NEXT_PUBLIC_BACKEND_URL=http://${HOSTNAME}:8080
 REDIS_URL=redis://redis:6379
-BACKEND_URL=http://${HOSTNAME}:8080
 `;
 }
 

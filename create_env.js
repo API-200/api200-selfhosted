@@ -4,7 +4,6 @@ const fs = require('fs');
 const { EOL } = require("os");
 
 const HOSTNAME = process.argv[2];
-const SUPABASE_HOST = 'kong';
 const JWT_SECRET = generateRandomString(40);
 
 const randomValues = {
@@ -167,8 +166,7 @@ GOOGLE_PROJECT_NUMBER=GOOGLE_PROJECT_NUMBER
 
 function generateFrontendEnv() {
     return `
-NEXT_PUBLIC_SUPABASE_URL=http://${SUPABASE_HOST}:8000
-NEXT_PUBLIC_SUPABASE_URL_CLIENT=http://${HOSTNAME}:8000
+NEXT_PUBLIC_SUPABASE_URL=http://${HOSTNAME}:8000
 NEXT_PUBLIC_SUPABASE_ANON_KEY=${randomValues.ANON_KEY}
 REDIS_URL=redis://redis:6379
 BACKEND_URL=http://${HOSTNAME}:8080
@@ -181,7 +179,7 @@ NODE_ENV=production
 PORT=8080
 
 #SUPABASE
-SUPABASE_URL=http://${SUPABASE_HOST}:8000
+SUPABASE_URL=http://${HOSTNAME}:8000
 SUPABASE_SERVICE_ROLE_KEY=${randomValues.SERVICE_ROLE_KEY}
 REDIS_URL=redis://redis:6379
 

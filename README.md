@@ -17,6 +17,6 @@ Before you begin, ensure you have the following installed on your system:
 git clone https://github.com/API-200/api200-selfhosted
 cd api200-selfhosted
 npm i
-node create_env.js <MACHINE_PUBLIC_IP / DOMAIN>
+node create_env.js <MACHINE_PUBLIC_IP / DOMAIN / localhost>
 docker-compose up -d
 ```

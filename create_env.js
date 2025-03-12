@@ -6,7 +6,7 @@ const { EOL } = require("os");
 const HOSTNAME = process.argv[2];
 
 if (!HOSTNAME) {
-    console.error("Hostname must be provided. Ex: node create_env.js <MACHINE_PUBLIC_IP / DOMAIN>");
+    console.error("Hostname must be provided. Ex: node create_env.js <MACHINE_PUBLIC_IP / DOMAIN / localhost>");
     return;
 }
 
@@ -175,7 +175,7 @@ function generateFrontendEnv() {
 NEXT_PUBLIC_SUPABASE_URL=http://${HOSTNAME}:8000
 NEXT_PUBLIC_SUPABASE_ANON_KEY=${randomValues.ANON_KEY}
 NEXT_PUBLIC_BACKEND_URL=http://${HOSTNAME}:8080
-NEXT_PUBLIC_IS_SELFHOSTED=1
+NEXT_PUBLIC_IS_SELFHOSTED=true
 REDIS_URL=redis://redis:6379
 `;
 }
@@ -184,7 +184,7 @@ function generateBackendEnv() {
     return `
 NODE_ENV=production
 PORT=8080
-IS_SELFHOSTED=1
+IS_SELFHOSTED=true
 
 SUPABASE_URL=http://${HOSTNAME}:8000
 SUPABASE_SERVICE_ROLE_KEY=${randomValues.SERVICE_ROLE_KEY}

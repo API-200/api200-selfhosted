@@ -6,7 +6,7 @@ const { EOL } = require("os");
 const HOSTNAME = process.argv[2];
 
 if (!HOSTNAME) {
-    console.error("Hostname must be provided. Ex: node create_env.js <MACHINE_PUBLIC_IP / DOMAIN>")
+    console.error("Hostname must be provided. Ex: node create_env.js <MACHINE_PUBLIC_IP / DOMAIN>");
     return;
 }
 
@@ -204,11 +204,4 @@ void function () {
     fs.writeFileSync('frontend.env', generateFrontendEnv());
 
     fs.writeFileSync('backend.env', generateBackendEnv());
-
-    if (process.platform === 'linux') {
-        const kongExists = fs.readFileSync('/etc/hosts').toString().includes('kong');
-        if (!kongExists) {
-            fs.appendFileSync('/etc/hosts', EOL + '127.0.0.1 kong');
-        }
-    }
 }()

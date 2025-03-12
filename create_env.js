@@ -174,6 +174,7 @@ function generateFrontendEnv() {
 NEXT_PUBLIC_SUPABASE_URL=http://${HOSTNAME}:8000
 NEXT_PUBLIC_SUPABASE_ANON_KEY=${randomValues.ANON_KEY}
 NEXT_PUBLIC_BACKEND_URL=http://${HOSTNAME}:8080
+NEXT_PUBLIC_IS_SELFHOSTED=1
 REDIS_URL=redis://redis:6379
 `;
 }
@@ -182,16 +183,17 @@ function generateBackendEnv() {
     return `
 NODE_ENV=production
 PORT=8080
+IS_SELFHOSTED=1
 
-#SUPABASE
 SUPABASE_URL=http://${HOSTNAME}:8000
 SUPABASE_SERVICE_ROLE_KEY=${randomValues.SERVICE_ROLE_KEY}
-REDIS_URL=redis://redis:6379
 
 ENCRYPTION_KEY=${randomValues.ENCRYPTION_KEY}
 
 POSTGRES_PASSWORD=${randomValues.POSTGRES_PASSWORD}
 POOLER_TENANT_ID=${randomValues.POOLER_TENANT_ID}
+
+REDIS_URL=redis://redis:6379
 `;
 }
 

@@ -7,6 +7,7 @@ const HOSTNAME = process.argv[2];
 
 if (!HOSTNAME) {
     console.error("Hostname must be provided. Ex: node create_env.js <MACHINE_PUBLIC_IP / DOMAIN>")
+    return;
 }
 
 const JWT_SECRET = generateRandomString(40);

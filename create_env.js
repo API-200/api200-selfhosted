@@ -1,7 +1,6 @@
 const crypto = require('crypto');
 const jwt = require('jsonwebtoken');
 const fs = require('fs');
-const { EOL } = require("os");
 
 const HOSTNAME = process.argv[2];
 

@@ -15,8 +15,14 @@ Before you begin, ensure you have the following installed on your system:
 
 ```bash
 git clone https://github.com/API-200/api200-selfhosted
+
 cd api200-selfhosted
+
 npm i
+
 node create_env.js <MACHINE_PUBLIC_IP / DOMAIN / localhost>
+
+node update_hosts.js # with root user. for local setup (if used localhost in previous step)
+
 docker-compose up -d
 ```

@@ -2,13 +2,14 @@ const crypto = require('crypto');
 const jwt = require('jsonwebtoken');
 const fs = require('fs');
 
-const HOSTNAME = process.argv[2];
+const HOSTNAME = process.argv[2]?.replace(/^https?:\/\//, '');
 
 if (!HOSTNAME) {
     console.error("Hostname must be provided. Ex: node create_env.js <MACHINE_PUBLIC_IP / DOMAIN / localhost>");
     return;
 }
 
+const SUPABASE_HOST = HOSTNAME === 'localhost' ? 'kong' : HOSTNAME;
 const JWT_SECRET = generateRandomString(40);
 
 const randomValues = {
@@ -171,7 +172,7 @@ GOOGLE_PROJECT_NUMBER=GOOGLE_PROJECT_NUMBER
 
 function generateFrontendEnv() {
     return `
-NEXT_PUBLIC_SUPABASE_URL=http://${HOSTNAME}:8000
+NEXT_PUBLIC_SUPABASE_URL=http://${SUPABASE_HOST}:8000
 NEXT_PUBLIC_SUPABASE_ANON_KEY=${randomValues.ANON_KEY}
 NEXT_PUBLIC_BACKEND_URL=http://${HOSTNAME}:8080
 NEXT_PUBLIC_IS_SELFHOSTED=true
@@ -185,7 +186,7 @@ NODE_ENV=production
 PORT=8080
 IS_SELFHOSTED=true
 
-SUPABASE_URL=http://${HOSTNAME}:8000
+SUPABASE_URL=http://${SUPABASE_HOST}:8000
 SUPABASE_SERVICE_ROLE_KEY=${randomValues.SERVICE_ROLE_KEY}
 
 ENCRYPTION_KEY=${randomValues.ENCRYPTION_KEY}

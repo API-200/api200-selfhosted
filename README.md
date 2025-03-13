@@ -11,30 +11,6 @@ Before you begin, ensure you have the following installed on your system:
 - **Node.js**
 - **npm**
 
-### Installing Prerequisites
-
-#### Ubuntu/Debian:
-
-```bash
-# Update package index
-sudo apt update
-
-# Install Docker
-sudo apt install -y docker.io
-
-# Install Docker Compose
-sudo apt install -y docker-compose
-
-# Install Node.js and npm
-sudo apt install -y nodejs npm
-
-# Verify installations
-docker --version
-docker-compose --version
-node --version
-npm --version
-```
-
 ## Setup
 
 1. Clone the repository and install dependencies:
@@ -93,4 +69,4 @@ Once all services are running, you can access:
 
 ## License
 
-[License information here]
+Apache License 2.0

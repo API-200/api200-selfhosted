@@ -48,9 +48,6 @@ services:
       - ${KONG_HTTPS_PORT}:8443/tcp
     volumes:
       - ./volumes/api/kong.yml:/home/kong/temp.yml:ro
-    depends_on:
-      analytics:
-        condition: service_healthy
     environment:
       KONG_DATABASE: "off"
       KONG_DECLARATIVE_CONFIG: /home/kong/kong.yml
@@ -83,8 +80,6 @@ services:
       retries: 3
     depends_on:
       db:
-        condition: service_healthy
-      analytics:
         condition: service_healthy
     environment:
       GOTRUE_API_HOST: 0.0.0.0
@@ -122,8 +117,6 @@ services:
     restart: unless-stopped
     depends_on:
       db:
-        condition: service_healthy
-      analytics:
         condition: service_healthy
     environment:
       PGRST_DB_URI: postgres://authenticator:${POSTGRES_PASSWORD}@${POSTGRES_HOST}:${POSTGRES_PORT}/${POSTGRES_DB}
@@ -167,8 +160,6 @@ services:
     depends_on:
       db:
         condition: service_healthy
-      analytics:
-        condition: service_healthy
     environment:
       PG_META_PORT: 8080
       PG_META_DB_HOST: ${POSTGRES_HOST}
@@ -176,41 +167,6 @@ services:
       PG_META_DB_NAME: ${POSTGRES_DB}
       PG_META_DB_USER: supabase_admin
       PG_META_DB_PASSWORD: ${POSTGRES_PASSWORD}
-
-  analytics:
-    container_name: supabase-analytics
-    image: supabase/logflare:1.11.0
-    restart: unless-stopped
-    ports:
-      - 4000:4000
-    healthcheck:
-      test:
-        [
-          "CMD",
-          "curl",
-          "http://localhost:4000/health"
-        ]
-      timeout: 5s
-      interval: 5s
-      retries: 10
-    depends_on:
-      db:
-        condition: service_healthy
-    environment:
-      LOGFLARE_NODE_HOST: 127.0.0.1
-      DB_USERNAME: supabase_admin
-      DB_DATABASE: _supabase
-      DB_HOSTNAME: ${POSTGRES_HOST}
-      DB_PORT: ${POSTGRES_PORT}
-      DB_PASSWORD: ${POSTGRES_PASSWORD}
-      DB_SCHEMA: _analytics
-      LOGFLARE_API_KEY: ${LOGFLARE_API_KEY}
-      LOGFLARE_SINGLE_TENANT: "true"  # Converted to string
-      LOGFLARE_SUPABASE_MODE: "true"
-      LOGFLARE_MIN_CLUSTER_SIZE: "1"
-      POSTGRES_BACKEND_URL: postgresql://supabase_admin:${POSTGRES_PASSWORD}@${POSTGRES_HOST}:${POSTGRES_PORT}/_supabase
-      POSTGRES_BACKEND_SCHEMA: _analytics
-      LOGFLARE_FEATURE_FLAG_OVERRIDE: multibackend=true
 
   db:
     container_name: supabase-db
@@ -239,9 +195,6 @@ services:
       interval: 5s
       timeout: 5s
       retries: 10
-    depends_on:
-      vector:
-        condition: service_healthy
     environment:
       POSTGRES_HOST: /var/run/postgresql
       PGPORT: ${POSTGRES_PORT}
@@ -259,34 +212,6 @@ services:
         "config_file=/etc/postgresql/postgresql.conf",
         "-c",
         "log_min_messages=fatal"
-      ]
-
-  vector:
-    container_name: supabase-vector
-    image: timberio/vector:0.28.1-alpine
-    restart: unless-stopped
-    volumes:
-      - ./volumes/logs/vector.yml:/etc/vector/vector.yml:ro
-      - ${DOCKER_SOCKET_LOCATION}:/var/run/docker.sock:ro
-    healthcheck:
-      test:
-        [
-          "CMD",
-          "wget",
-          "--no-verbose",
-          "--tries=1",
-          "--spider",
-          "http://vector:9001/health"
-        ]
-      timeout: 5s
-      interval: 5s
-      retries: 3
-    environment:
-      LOGFLARE_API_KEY: ${LOGFLARE_API_KEY}
-    command:
-      [
-        "--config",
-        "/etc/vector/vector.yml"
       ]
 
   supavisor:
@@ -314,8 +239,6 @@ services:
       retries: 5
     depends_on:
       db:
-        condition: service_healthy
-      analytics:
         condition: service_healthy
     environment:
       PORT: 4000

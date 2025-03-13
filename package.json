@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "create_env.js",
   "scripts": {
-    "start": "node create_env.js"
+    "start": "node setup.js"
   },
   "repository": {
     "type": "git",
